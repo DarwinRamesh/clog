@@ -2,18 +2,17 @@
 #include <stdlib.h>
 #include "fileio.h"
 
-void writefile(char *sleep){
+void writefile(char *task_buffer){
   
   	FILE *filePtr; //delaring file ptr
   	filePtr = fopen("taskslog.txt", "a"); // w, write, w+ update, a append
   
   	if (filePtr == NULL){
     	printf("Error : Could not open or create the file.\n");
-  	}
-	
-  	fprintf(filePtr, "%s", sleep);
+  	}	 
 
-  	printf("Succesfully written task to file\n");
+  	fprintf(filePtr, "%s", task_buffer);
+	printf("Succesfully written task to file\n");
 
   	fclose(filePtr);
                 
@@ -38,7 +37,7 @@ void readfile(){
 
 }
 
-void gettasks(int c){
+void gettasks(){
   	printf("Enter a task, 'q' to finsh, 'r' to read.\n");
 
   	char task_buffer[256];

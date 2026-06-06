@@ -1,8 +1,8 @@
 #ifndef FILEIO_H
 #define FILEIO_H
 
-void writefile(char *sleep);
+void writefile(char *task_buffer);
 void readfile();
-void gettasks(int c);
+void gettasks();
 
 #endif
