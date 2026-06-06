@@ -1,16 +1,1 @@
-Handles strings
-Handles numbers
-123
-Handles special chars
-/n
-\0
-\n
-;
-'q' to exit.
-dsasadsad
-as
-asd
-asd
 
-sad
-asd
