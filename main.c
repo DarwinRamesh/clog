@@ -9,8 +9,8 @@ int main (){
   array_init(&struct_array, array_size_init);
   
   int c;
-  gettasks(c);
-  //writefile((void*)ptr);
+  gettasks(c); 
+
 }
 
 
