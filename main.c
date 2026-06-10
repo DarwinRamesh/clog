@@ -8,7 +8,7 @@ int main (){
   //size_t array_size_init = 4;
   //array_init(&struct_array, array_size_init); 
   
-  gettasks(); 
+  perform_tasks(); 
 
 }
 
