@@ -47,7 +47,7 @@ void read_File(){
 }
 
 void perform_tasks(){
-  	printf("Enter a task, 'q' to finsh, 'r' to read.\n");
+  	printf("Enter a task, 'q' to finsh, 'r' to read, 'R' to remove. \n");
 
   	char task_buffer[256];
 
@@ -56,28 +56,33 @@ void perform_tasks(){
     	printf("> ");
 
     	if (fgets(task_buffer, sizeof(task_buffer), stdin) == NULL){
-      	break;
+      		break;
     	}
 
     	if(task_buffer[0] == 'q' && (task_buffer[1] == '\n' || task_buffer[1] == '\0')) {	
-      	break;
+      		break;
     	}
 
     	if(task_buffer[0] == '\n'){
 	printf("Please enter a valid task!\n");
+		continue;
     	}
 
 	if(task_buffer[0] == 'r' && task_buffer[1] == '\n'){
-	printf("Reading Files : \n");
-	read_File();
-	continue;
+		printf("Reading Files : \n");
+		read_File();
+		continue;
 	}
+
 	if(task_buffer[0] == 'R' && task_buffer[1] == '\n'){
+		printf("Please specify the number of the task you would like to delete.\n");
 		remove_tasks();
+		continue;
 	}
 
 	if(task_buffer[0] != 'q' || task_buffer[0] != '\n' || task_buffer[1] != '\0' || task_buffer[0] != 'r') {
-	write_file(task_buffer);
+		write_file(task_buffer);
+		continue;
 
 	}
 
@@ -89,8 +94,8 @@ void remove_tasks(){
 	FILE *src_file;
 	FILE *temp_file;
 	char file_buffer[256];
-	int removed_line;
-	int current_line;	
+	int removed_line = 0;
+	int current_line = 0;	
 
 	const char *src_file_name = "taskslog.txt";
 	const char *temp_file_name = "temp.txt";
@@ -104,23 +109,28 @@ void remove_tasks(){
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Specify the number of the task you want to remove! : ");
 	scanf("%i", &removed_line);
 
-	while(fgets(file_buffer, 256, src_file) != NULL){
-		if(current_line != removed_line){
-			fputs(file_buffer, temp_file);
-			printf("Succesfully added data to temp file");
+	int c;
+	while((c = getchar()) != '\n' && c != EOF);
+
+	while(fgets(file_buffer, sizeof(file_buffer), src_file) != NULL){
+		if(current_line != removed_line){	
+			fputs(file_buffer, temp_file);	
 		}
+		
+		current_line++;
 	}
 
+	fclose(src_file);
+
 	if(remove(src_file_name) == 0){
-		printf("File deleted\n");
+		printf("File updated!\n");
 	}else{
 		printf("Couldn't delete file\n'");
 	}
 
+	fclose(temp_file);
 	rename(temp_file_name, new_file_name);
-		
 }
 
