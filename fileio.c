@@ -9,7 +9,7 @@ void write_file(char *task_buffer){
   	filePtr = fopen("taskslog.txt", "a"); 
   
   	if (filePtr == NULL){
-    	printf("Error : Could not open or create the file.\n");
+    		printf("Error : Could not open or create the file.\n");
   	}	 
 
   	fprintf(filePtr, "%s", task_buffer);
@@ -19,27 +19,26 @@ void write_file(char *task_buffer){
                 
 	}
 
-void read_File(){
+void read_file(){
 
 	FILE *filePtr;	
 	filePtr = fopen("taskslog.txt", "r");	
 
 	if (filePtr == NULL){
-	printf("Error : Could not open or read file. \n");
+		printf("Error : Could not open or read file. \n");
 	}
 
 	char input_buffer[100];
-	int array_index = 0;
+	int array_index = 1;
 	
-	while(fgets(input_buffer, 100, filePtr)) {	
+	while(fgets(input_buffer, sizeof(input_buffer), filePtr)) {	
+		if (input_buffer[strlen(input_buffer) - 1] == '\n') {
+			array_index++;
+				if (array_index > 1){
+				printf("%d - %s", array_index - 1, input_buffer);
+				}
 
-	if (input_buffer[strlen(input_buffer) - 1] == '\n') {
-		array_index++;
-			if (array_index > 1){
-			printf("%d - %s", array_index - 1, input_buffer);
-	}
-
-	}
+		}
 	}	
 
 	fclose(filePtr);
@@ -51,40 +50,39 @@ void perform_tasks(){
 
   	char task_buffer[256];
 
- 	while(1){
-    
-    	printf("> ");
+ 	while(1){    
+    		printf("> ");
 
-    	if (fgets(task_buffer, sizeof(task_buffer), stdin) == NULL){
-      		break;
-    	}
+    		if (fgets(task_buffer, sizeof(task_buffer), stdin) == NULL){
+      			break;
+    		}
 
-    	if(task_buffer[0] == 'q' && (task_buffer[1] == '\n' || task_buffer[1] == '\0')) {	
-      		break;
-    	}
+    		if(task_buffer[0] == 'q' && (task_buffer[1] == '\n' || task_buffer[1] == '\0')) {	
+      			break;
+    		}
 
-    	if(task_buffer[0] == '\n'){
-	printf("Please enter a valid task!\n");
-		continue;
-    	}
+    		if(task_buffer[0] == '\n'){
+			printf("Please enter a valid task!\n");
+			continue;
+    		}
 
-	if(task_buffer[0] == 'r' && task_buffer[1] == '\n'){
-		printf("Reading Files : \n");
-		read_File();
-		continue;
-	}
+		if(task_buffer[0] == 'r' && task_buffer[1] == '\n'){
+			printf("Reading Files : \n");
+			read_file();
+			continue;
+		}
 
-	if(task_buffer[0] == 'R' && task_buffer[1] == '\n'){
-		printf("Please specify the number of the task you would like to delete.\n");
-		remove_tasks();
-		continue;
-	}
+		if(task_buffer[0] == 'R' && task_buffer[1] == '\n'){
+			printf("Please specify the number of the task you would like to delete.\n");
+			remove_tasks();
+			continue;
+		}
 
-	if(task_buffer[0] != 'q' || task_buffer[0] != '\n' || task_buffer[1] != '\0' || task_buffer[0] != 'r') {
-		write_file(task_buffer);
-		continue;
+		if(task_buffer[0] != 'q' || task_buffer[0] != '\n' || task_buffer[1] != '\0' || task_buffer[0] != 'r') {
+			write_file(task_buffer);
+			continue;
 
-	}
+		}
 
  	}
 }
